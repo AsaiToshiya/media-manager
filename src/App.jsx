@@ -2,33 +2,52 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+const pathJoin = (...paths) =>
+  paths
+    .map((path) => {
+      const start = path[0] === "/" ? 1 : 0;
+      const end = path[path.length - 1] === "/" ? path.length - 1 : path.length;
+      return path.slice(start, end);
+    })
+    .join("/");
 
+const thumbnailListStyle = {
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "4px",
+  justifyContent: "space-between",
+};
+const thumbnailListItemStyle = {
+  listStyleType: "none",
+  padding: 0,
+  width: "210px",
+};
+const imageStyle = {
+  height: "210px",
+  objectFit: "contain",
+  width: "210px",
+};
+const titleStyle = {
+  wordBreak: "break-all",
+};
+
+const config = await window.getConfig();
+const thumbnails = (await window.getMedias()).map((name) => ({
+  path: `file:///${pathJoin(config.libraryPath, "thumbnails", name)}`,
+  title: name,
+}));
+
+function App() {
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+    <ul style={thumbnailListStyle}>
+      {thumbnails.map(({ path, title }) => (
+        <li key={title} style={thumbnailListItemStyle}>
+          <img src={path} style={imageStyle} />
+          <div style={titleStyle}>{title}</div>
+        </li>
+      ))}
+    </ul>
+  );
 }
 
 export default App

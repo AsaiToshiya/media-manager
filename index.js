@@ -1,5 +1,6 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
+const fs = require("fs");
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -9,6 +10,11 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
+const getConfig = () => {
+  const configPath = path.join(app.getPath("userData"), "config.json");
+  return JSON.parse(fs.readFileSync(configPath, "utf8"));
+};
+
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -16,7 +22,15 @@ const createWindow = () => {
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      webSecurity: !isDev,
     },
+  });
+
+  ipcMain.handle("getConfig", getConfig);
+  ipcMain.handle("getMedias", () => {
+    const config = getConfig();
+    const mediaPath = path.join(config.libraryPath, "medias");
+    return fs.readdirSync(mediaPath);
   });
 
   if (isDev) {
