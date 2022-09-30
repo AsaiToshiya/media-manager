@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fs = require("fs");
+const { exec } = require('child_process'); 
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -14,6 +15,13 @@ const getConfig = () => {
   const configPath = path.join(app.getPath("userData"), "config.json");
   return JSON.parse(fs.readFileSync(configPath, "utf8"));
 };
+
+const openCommand =
+  {
+    darwin: "open",
+    win32: 'start ""',
+    win64: 'start ""',
+  }[process.platform] ?? "xdg-open";
 
 const createWindow = () => {
   // Create the browser window.
@@ -31,6 +39,11 @@ const createWindow = () => {
     const config = getConfig();
     const mediaPath = path.join(config.libraryPath, "medias");
     return fs.readdirSync(mediaPath);
+  });
+  ipcMain.handle("openMedia", (event, key) => {
+    const config = getConfig();
+    const file = path.join(config.libraryPath, "medias", key);
+    exec(`${openCommand} "${file}"`);
   });
 
   if (isDev) {

@@ -8,3 +8,6 @@ contextBridge.exposeInMainWorld(
   "getMedias",
   async () => await ipcRenderer.invoke("getMedias")
 );
+contextBridge.exposeInMainWorld("openMedia", (key) =>
+  ipcRenderer.invoke("openMedia", key)
+);

@@ -38,10 +38,16 @@ const thumbnails = (await window.getMedias()).map((name) => ({
 }));
 
 function App() {
+  const handleDoubleClick = window.openMedia;
+
   return (
     <ul style={thumbnailListStyle}>
       {thumbnails.map(({ path, title }) => (
-        <li key={title} style={thumbnailListItemStyle}>
+        <li
+          key={title}
+          onDoubleClick={() => handleDoubleClick(title)}
+          style={thumbnailListItemStyle}
+        >
           <img src={path} style={imageStyle} />
           <div style={titleStyle}>{title}</div>
         </li>
