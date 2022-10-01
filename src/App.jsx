@@ -32,7 +32,8 @@ const titleStyle = {
 };
 
 const config = await window.getConfig();
-const thumbnails = (await window.getMedias()).map((name) => ({
+const medias = await window.getMedias();
+const thumbnails = medias.map((name) => ({
   path: `file:///${pathJoin(config.libraryPath, "thumbnails", name)}`,
   title: name,
 }));
