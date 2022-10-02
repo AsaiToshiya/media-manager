@@ -2,6 +2,14 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 
+const getThumbnails = async () => {
+  const config = await window.getConfig();
+  const medias = await window.getMedias();
+  return medias.map((name) => ({
+    path: `file:///${pathJoin(config.libraryPath, "thumbnails", name)}`,
+    title: name,
+  }));
+};
 const pathJoin = (...paths) =>
   paths
     .map((path) => {
@@ -31,12 +39,7 @@ const titleStyle = {
   wordBreak: "break-all",
 };
 
-const config = await window.getConfig();
-const medias = await window.getMedias();
-const thumbnails = medias.map((name) => ({
-  path: `file:///${pathJoin(config.libraryPath, "thumbnails", name)}`,
-  title: name,
-}));
+const thumbnails = await getThumbnails();
 
 function App() {
   const handleDoubleClick = window.openMedia;
