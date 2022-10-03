@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fs = require("fs");
 const { exec } = require('child_process'); 
+const sharp = require("sharp");
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -39,6 +40,18 @@ const createWindow = () => {
     const config = getConfig();
     const mediaPath = path.join(config.libraryPath, "medias");
     return fs.readdirSync(mediaPath);
+  });
+  ipcMain.handle("importMedia", async (event, file) => {
+    const config = getConfig();
+    const filename = path.basename(file);
+
+    const mediaPath = path.join(config.libraryPath, "medias", filename);
+    fs.copyFileSync(file, mediaPath);
+
+    const thumbPath = path.join(config.libraryPath, "thumbnails", filename);
+    await sharp(file)
+      .resize(320, 320, { fit: sharp.fit.inside, withoutEnlargement: true })
+      .toFile(thumbPath);
   });
   ipcMain.handle("openMedia", (event, key) => {
     const config = getConfig();

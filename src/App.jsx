@@ -18,6 +18,10 @@ const pathJoin = (...paths) =>
       return path.slice(start, end);
     })
     .join("/");
+const stopEvent = (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+};
 
 const thumbnailListStyle = {
   display: "flex",
@@ -39,13 +43,31 @@ const titleStyle = {
   wordBreak: "break-all",
 };
 
-const thumbnails = await getThumbnails();
+const initialThumbnails = await getThumbnails();
 
 function App() {
+  const [thumbnails, setThumbnails] = useState(initialThumbnails);
+
   const handleDoubleClick = window.openMedia;
+  const handleDragOver = stopEvent;
+  const handleDrop = (e) => {
+    stopEvent(e);
+    Array.from(e.dataTransfer.files).reduce(
+      (p, f) =>
+        p.then(async () => {
+          await window.importMedia(f.path);
+          setThumbnails(await getThumbnails());
+        }),
+      Promise.resolve()
+    );
+  };
 
   return (
-    <ul style={thumbnailListStyle}>
+    <ul
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+      style={thumbnailListStyle}
+    >
       {thumbnails.map(({ path, title }) => (
         <li
           key={title}
