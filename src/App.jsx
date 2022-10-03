@@ -24,15 +24,14 @@ const stopEvent = (e) => {
 };
 
 const thumbnailListStyle = {
-  display: "flex",
-  flexWrap: "wrap",
+  display: "grid",
   gap: "4px",
+  gridTemplateColumns: "repeat(auto-fill, 210px)",
   justifyContent: "space-between",
 };
 const thumbnailListItemStyle = {
   listStyleType: "none",
   padding: 0,
-  width: "210px",
 };
 const imageStyle = {
   height: "210px",
