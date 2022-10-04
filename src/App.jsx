@@ -28,6 +28,7 @@ const thumbnailListStyle = {
   gap: "4px",
   gridTemplateColumns: "repeat(auto-fill, 210px)",
   justifyContent: "space-between",
+  paddingInlineStart: 0,
 };
 const thumbnailListItemStyle = {
   listStyleType: "none",
