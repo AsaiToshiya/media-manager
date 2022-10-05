@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
+import styled from "styled-components";
 
 const getThumbnails = async () => {
   const config = await window.getConfig();
@@ -23,25 +24,25 @@ const stopEvent = (e) => {
   e.stopPropagation();
 };
 
-const thumbnailListStyle = {
-  display: "grid",
-  gap: "4px",
-  gridTemplateColumns: "repeat(auto-fill, 210px)",
-  justifyContent: "space-between",
-  paddingInlineStart: 0,
-};
-const thumbnailListItemStyle = {
-  listStyleType: "none",
-  padding: 0,
-};
-const imageStyle = {
-  height: "210px",
-  objectFit: "contain",
-  width: "210px",
-};
-const titleStyle = {
-  wordBreak: "break-all",
-};
+const ThumbnailList = styled.ul`
+  display: grid;
+  gap: 4px;
+  grid-template-columns: repeat(auto-fill, 210px);
+  justify-content: space-between;
+  padding-inline-start: 0;
+`;
+const ThumbnailListItem = styled.li`
+  list-style-type: none;
+  padding: 0;
+`;
+const Image = styled.img`
+  height: 210px;
+  object-fit: contain;
+  width: 210px;
+`;
+const Title = styled.div`
+  word-break: break-all;
+`;
 
 const initialThumbnails = await getThumbnails();
 
@@ -63,22 +64,17 @@ function App() {
   };
 
   return (
-    <ul
-      onDragOver={handleDragOver}
-      onDrop={handleDrop}
-      style={thumbnailListStyle}
-    >
+    <ThumbnailList onDragOver={handleDragOver} onDrop={handleDrop}>
       {thumbnails.map(({ path, title }) => (
-        <li
+        <ThumbnailListItem
           key={title}
           onDoubleClick={() => handleDoubleClick(title)}
-          style={thumbnailListItemStyle}
         >
-          <img src={path} style={imageStyle} />
-          <div style={titleStyle}>{title}</div>
-        </li>
+          <Image src={path} />
+          <Title>{title}</Title>
+        </ThumbnailListItem>
       ))}
-    </ul>
+    </ThumbnailList>
   );
 }
 
