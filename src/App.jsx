@@ -8,7 +8,7 @@ const getThumbnails = async () => {
   const medias = await window.getMedias();
   return medias.map((name) => ({
     path: `file:///${pathJoin(config.libraryPath, "thumbnails", name)}`,
-    title: name,
+    title: name.substring(0, name.lastIndexOf(".")),
   }));
 };
 const pathJoin = (...paths) =>
@@ -49,7 +49,10 @@ const initialThumbnails = await getThumbnails();
 function App() {
   const [thumbnails, setThumbnails] = useState(initialThumbnails);
 
-  const handleDoubleClick = window.openMedia;
+  const handleDoubleClick = (path) => {
+    const filename = path.split("/").pop();
+    window.openMedia(filename);
+  };
   const handleDragOver = stopEvent;
   const handleDrop = (e) => {
     stopEvent(e);
@@ -68,7 +71,7 @@ function App() {
       {thumbnails.map(({ path, title }) => (
         <ThumbnailListItem
           key={title}
-          onDoubleClick={() => handleDoubleClick(title)}
+          onDoubleClick={() => handleDoubleClick(path)}
         >
           <Image src={path} />
           <Title>{title}</Title>
