@@ -24,6 +24,11 @@ const stopEvent = (e) => {
   e.stopPropagation();
 };
 
+const Content = styled.div`
+  box-sizing: border-box;
+  height: 100%;
+  padding: 2rem;
+`;
 const ThumbnailList = styled.ul`
   display: grid;
   gap: 4px;
@@ -67,17 +72,19 @@ function App() {
   };
 
   return (
-    <ThumbnailList onDragOver={handleDragOver} onDrop={handleDrop}>
-      {thumbnails.map(({ path, title }) => (
-        <ThumbnailListItem
-          key={title}
-          onDoubleClick={() => handleDoubleClick(path)}
-        >
-          <Image src={path} />
-          <Title>{title}</Title>
-        </ThumbnailListItem>
-      ))}
-    </ThumbnailList>
+    <Content onDragOver={handleDragOver} onDrop={handleDrop}>
+      <ThumbnailList>
+        {thumbnails.map(({ path, title }) => (
+          <ThumbnailListItem
+            key={title}
+            onDoubleClick={() => handleDoubleClick(path)}
+          >
+            <Image src={path} />
+            <Title>{title}</Title>
+          </ThumbnailListItem>
+        ))}
+      </ThumbnailList>
+    </Content>
   );
 }
 
