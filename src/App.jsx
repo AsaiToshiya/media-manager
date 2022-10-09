@@ -37,6 +37,7 @@ const ThumbnailList = styled.ul`
   padding-inline-start: 0;
 `;
 const ThumbnailListItem = styled.li`
+  cursor: pointer;
   list-style-type: none;
   padding: 0;
 `;
