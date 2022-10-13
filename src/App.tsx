@@ -11,7 +11,7 @@ const getThumbnails = async () => {
     title: name.substring(0, name.lastIndexOf(".")),
   }));
 };
-const pathJoin = (...paths) =>
+const pathJoin = (...paths: string[]) =>
   paths
     .map((path) => {
       const start = path[0] === "/" ? 1 : 0;
@@ -19,7 +19,7 @@ const pathJoin = (...paths) =>
       return path.slice(start, end);
     })
     .join("/");
-const stopEvent = (e) => {
+const stopEvent = (e: React.DragEvent<HTMLDivElement>) => {
   e.preventDefault();
   e.stopPropagation();
 };
@@ -55,14 +55,14 @@ const initialThumbnails = await getThumbnails();
 function App() {
   const [thumbnails, setThumbnails] = useState(initialThumbnails);
 
-  const handleDoubleClick = (path) => {
+  const handleDoubleClick = (path: string) => {
     const filename = path.split("/").pop();
-    window.openMedia(filename);
+    window.openMedia(filename!);
   };
   const handleDragOver = stopEvent;
-  const handleDrop = (e) => {
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     stopEvent(e);
-    Array.from(e.dataTransfer.files).reduce(
+    Array.from<File>(e.dataTransfer.files).reduce<Promise<void>>(
       (p, f) =>
         p.then(async () => {
           await window.importMedia(f.path);
