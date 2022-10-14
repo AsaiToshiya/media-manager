@@ -17,6 +17,11 @@ const getConfig = () => {
   return JSON.parse(fs.readFileSync(configPath, "utf8"));
 };
 
+const getMediaPath = () => {
+  const config = getConfig();
+  return path.join(config.libraryPath, "medias");
+};
+
 const openCommand =
   {
     darwin: "open",
@@ -37,15 +42,14 @@ const createWindow = () => {
 
   ipcMain.handle("getConfig", getConfig);
   ipcMain.handle("getMedias", () => {
-    const config = getConfig();
-    const mediaPath = path.join(config.libraryPath, "medias");
+    const mediaPath = getMediaPath();
     return fs.readdirSync(mediaPath);
   });
   ipcMain.handle("importMedia", async (event, file) => {
     const config = getConfig();
     const filename = path.basename(file);
 
-    const mediaPath = path.join(config.libraryPath, "medias", filename);
+    const mediaPath = path.join(getMediaPath(), filename);
     fs.copyFileSync(file, mediaPath);
 
     const thumbPath = path.join(config.libraryPath, "thumbnails", filename);
@@ -54,8 +58,7 @@ const createWindow = () => {
       .toFile(thumbPath);
   });
   ipcMain.handle("openMedia", (event, key) => {
-    const config = getConfig();
-    const file = path.join(config.libraryPath, "medias", key);
+    const file = path.join(getMediaPath(), key);
     exec(`${openCommand} "${file}"`);
   });
 
