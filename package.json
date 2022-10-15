@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently \"vite\" \"npm start\"",
     "build": "vite build",
     "preview": "vite preview",
     "start": "electron-forge start",
@@ -25,6 +25,7 @@
   "homepage": "https://github.com/AsaiToshiya/media-manager#readme",
   "keywords": [],
   "dependencies": {
+    "concurrently": "^7.4.0",
     "electron-squirrel-startup": "^1.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
