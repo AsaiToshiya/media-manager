@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"vite\" \"npm start\"",
+    "dev": "concurrently \"vite\" \"cross-env NODE_ENV=development npm start\"",
     "build": "vite build",
     "preview": "vite preview",
     "start": "electron-forge start",
@@ -42,6 +42,7 @@
     "@types/react-dom": "^18.0.6",
     "@types/styled-components": "^5.1.26",
     "@vitejs/plugin-react": "^2.1.0",
+    "cross-env": "^7.0.3",
     "electron": "21.1.0",
     "vite": "^3.1.0"
   },
