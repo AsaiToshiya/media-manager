@@ -22,6 +22,11 @@ const getMediaPath = () => {
   return path.join(config.libraryPath, "medias");
 };
 
+const getThumbsPath = () => {
+  const config = getConfig();
+  return path.join(config.libraryPath, "thumbnails");
+};
+
 const openCommand =
   {
     darwin: "open",
@@ -52,7 +57,7 @@ const createWindow = () => {
     const mediaPath = path.join(getMediaPath(), filename);
     fs.copyFileSync(file, mediaPath);
 
-    const thumbPath = path.join(config.libraryPath, "thumbnails", filename);
+    const thumbPath = path.join(getThumbsPath(), "thumbnails", filename);
     await sharp(file)
       .resize(320, 320, { fit: sharp.fit.inside, withoutEnlargement: true })
       .toFile(thumbPath);
@@ -101,8 +106,7 @@ const mediaPath = getMediaPath();
 if (!fs.existsSync(mediaPath)) {
   fs.mkdirSync(mediaPath);
 }
-const config = getConfig();
-const thumbPath = path.join(config.libraryPath, "thumbnails");
+const thumbPath = getThumbsPath();
 if (!fs.existsSync(thumbPath)) {
   fs.mkdirSync(thumbPath);
 }
