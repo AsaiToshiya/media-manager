@@ -57,7 +57,7 @@ const createWindow = () => {
     const mediaPath = path.join(getMediaPath(), filename);
     fs.copyFileSync(file, mediaPath);
 
-    const thumbPath = path.join(getThumbsPath(), "thumbnails", filename);
+    const thumbPath = path.join(getThumbsPath(), filename);
     await sharp(file)
       .resize(320, 320, { fit: sharp.fit.inside, withoutEnlargement: true })
       .toFile(thumbPath);
