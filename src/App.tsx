@@ -62,7 +62,7 @@ function App() {
   const handleDragOver = stopEvent;
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     stopEvent(e);
-    Array.from<File>(e.dataTransfer.files).reduce<Promise<void>>(
+    [...e.dataTransfer.files].reduce<Promise<void>>(
       (p, f) =>
         p.then(async () => {
           await window.importMedia(f.path);
