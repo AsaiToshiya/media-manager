@@ -105,10 +105,6 @@ app.on('activate', () => {
 const config = getConfig();
 !fs.existsSync(config.libraryPath) ? fs.mkdirSync(config.libraryPath): undefined;
 const mediaPath = getMediaPath();
-if (!fs.existsSync(mediaPath)) {
-  fs.mkdirSync(mediaPath);
-}
+!fs.existsSync(mediaPath) ? fs.mkdirSync(mediaPath): undefined;
 const thumbPath = getThumbsPath();
-if (!fs.existsSync(thumbPath)) {
-  fs.mkdirSync(thumbPath);
-}
+!fs.existsSync(thumbPath) ? fs.mkdirSync(thumbPath): undefined;
