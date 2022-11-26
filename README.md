@@ -15,7 +15,7 @@ npm install
 
 ### `config.json`
 
-[`app.getPath('userData')`](https://www.electronjs.org/ja/docs/latest/api/app#appgetpathname) の場所に `config.json` を作成する。
+[`app.getPath('userData')`](https://www.electronjs.org/ja/docs/latest/api/app#appgetpathname) の場所に `config.json` を作成します。
 
 config.json:
 
