@@ -17,9 +17,9 @@ const getConfig = () => {
   return JSON.parse(fs.readFileSync(configPath, "utf8"));
 };
 
-const getMediaPath = () => {
+const getMediaPath = (...paths) => {
   const config = getConfig();
-  return path.join(config.libraryPath, "medias");
+  return path.join(config.libraryPath, "medias", ...paths);
 };
 
 const getThumbsPath = () => {
@@ -46,9 +46,11 @@ const createWindow = () => {
   });
 
   ipcMain.handle("getConfig", getConfig);
-  ipcMain.handle("getMedias", () => {
-    const mediaPath = getMediaPath();
-    return fs.readdirSync(mediaPath);
+  ipcMain.handle("getMedias", (event, ...paths) => {
+    const mediaPath = getMediaPath(...paths);
+    return fs
+      .readdirSync(mediaPath, { withFileTypes: true })
+      .map((d) => ({ isFolder: d.isDirectory(), name: d.name }));
   });
   ipcMain.handle("importMedia", async (event, file) => {
     const config = getConfig();

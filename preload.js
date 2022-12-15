@@ -6,7 +6,7 @@ contextBridge.exposeInMainWorld(
 );
 contextBridge.exposeInMainWorld(
   "getMedias",
-  async () => await ipcRenderer.invoke("getMedias")
+  async (...paths) => await ipcRenderer.invoke("getMedias", ...paths)
 );
 contextBridge.exposeInMainWorld("importMedia", (file) =>
   ipcRenderer.invoke("importMedia", file)

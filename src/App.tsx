@@ -1,14 +1,26 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 import styled from "styled-components";
 
-const getThumbnails = async () => {
+interface Thumbnail {
+  isFolder: boolean;
+  path: string;
+  title: string;
+}
+
+const getThumbnails = async (...paths: string[]) => {
   const config = await window.getConfig();
-  const medias = await window.getMedias();
-  return medias.map((name) => ({
-    path: `file:///${pathJoin(config.libraryPath, "thumbnails", name)}`,
-    title: name.substring(0, name.lastIndexOf(".")),
+  const medias = await window.getMedias(...paths);
+  return medias.map(({ name, isFolder }) => ({
+    path: `file:///${pathJoin(
+      config.libraryPath,
+      "thumbnails",
+      ...paths,
+      name
+    )}`,
+    title: isFolder ? name : name.substring(0, name.lastIndexOf(".")),
+    isFolder,
   }));
 };
 const pathJoin = (...paths: string[]) =>
@@ -53,11 +65,18 @@ const Title = styled.div`
 const initialThumbnails = await getThumbnails();
 
 function App() {
+  const [paths, setPaths] = useState<string[]>([]);
   const [thumbnails, setThumbnails] = useState(initialThumbnails);
 
-  const handleDoubleClick = (path: string) => {
+  useEffect(() => {
+    (async () => setThumbnails(await getThumbnails(...paths)))();
+  }, [paths]);
+
+  const handleDoubleClick = ({ path, isFolder }: Thumbnail) => {
     const filename = path.split("/").pop();
-    window.openMedia(filename!);
+    isFolder
+      ? setPaths((prevState) => [...prevState, filename!])
+      : window.openMedia(filename!);
   };
   const handleDragOver = stopEvent;
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -75,13 +94,17 @@ function App() {
   return (
     <Content onDragOver={handleDragOver} onDrop={handleDrop}>
       <ThumbnailList>
-        {thumbnails.map(({ path, title }) => (
+        {thumbnails.map((thumbnail) => (
           <ThumbnailListItem
-            key={title}
-            onDoubleClick={() => handleDoubleClick(path)}
+            key={thumbnail.title}
+            onDoubleClick={() => handleDoubleClick(thumbnail)}
           >
-            <Image src={path} />
-            <Title>{title}</Title>
+            {thumbnail.isFolder ? (
+              <Image src="/folder.svg" />
+            ) : (
+              <Image src={thumbnail.path} />
+            )}
+            <Title>{thumbnail.title}</Title>
           </ThumbnailListItem>
         ))}
       </ThumbnailList>
