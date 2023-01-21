@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
-import styled from "styled-components";
+import { css } from "@emotion/react";
 
 interface Thumbnail {
   isFolder: boolean;
@@ -36,29 +36,29 @@ const stopEvent = (e: React.DragEvent<HTMLDivElement>) => {
   e.stopPropagation();
 };
 
-const Content = styled.div`
+const contentStyle = css`
   box-sizing: border-box;
   height: 100%;
   padding: 2rem;
 `;
-const ThumbnailList = styled.ul`
+const thumbnailListStyle = css`
   display: grid;
   gap: 4px;
   grid-template-columns: repeat(auto-fill, 210px);
   justify-content: space-between;
   padding-inline-start: 0;
 `;
-const ThumbnailListItem = styled.li`
+const thumbnailListItemStyle = css`
   cursor: pointer;
   list-style-type: none;
   padding: 0;
 `;
-const Image = styled.img`
+const imageStyle = css`
   height: 210px;
   object-fit: contain;
   width: 210px;
 `;
-const Title = styled.div`
+const titleStyle = css`
   word-break: break-all;
 `;
 
@@ -92,23 +92,24 @@ function App() {
   };
 
   return (
-    <Content onDragOver={handleDragOver} onDrop={handleDrop}>
-      <ThumbnailList>
+    <div css={contentStyle} onDragOver={handleDragOver} onDrop={handleDrop}>
+      <ul css={thumbnailListStyle}>
         {thumbnails.map((thumbnail) => (
-          <ThumbnailListItem
+          <li
+            css={thumbnailListItemStyle}
             key={thumbnail.title}
             onDoubleClick={() => handleDoubleClick(thumbnail)}
           >
             {thumbnail.isFolder ? (
-              <Image src="/folder.svg" />
+              <img css={imageStyle} src="/folder.svg" />
             ) : (
-              <Image src={thumbnail.path} />
+              <img css={imageStyle} src={thumbnail.path} />
             )}
-            <Title>{thumbnail.title}</Title>
-          </ThumbnailListItem>
+            <div css={titleStyle}>{thumbnail.title}</div>
+          </li>
         ))}
-      </ThumbnailList>
-    </Content>
+      </ul>
+    </div>
   );
 }
 

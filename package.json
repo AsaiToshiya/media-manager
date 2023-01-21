@@ -25,12 +25,12 @@
   "homepage": "https://github.com/AsaiToshiya/media-manager#readme",
   "keywords": [],
   "dependencies": {
+    "@emotion/react": "^11.10.5",
     "concurrently": "^7.4.0",
     "electron-squirrel-startup": "^1.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sharp": "^0.31.1",
-    "styled-components": "^5.3.6"
+    "sharp": "^0.31.1"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.66",
@@ -38,6 +38,7 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.66",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.66",
     "@electron-forge/maker-zip": "^6.0.0-beta.66",
+    "@emotion/babel-plugin": "^11.10.5",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@types/styled-components": "^5.1.26",

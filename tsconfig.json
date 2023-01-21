@@ -15,7 +15,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["vite/client", "electron"]
+    "types": ["vite/client", "electron"],
+    "jsxImportSource": "@emotion/react"
   },
   "include": ["src"]
 }
