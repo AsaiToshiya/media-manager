@@ -44,7 +44,7 @@
     "@types/styled-components": "^5.1.26",
     "@vitejs/plugin-react": "^4.0.0",
     "cross-env": "^7.0.3",
-    "electron": "31.3.1",
+    "electron": "32.0.1",
     "vite": "^5.0.2"
   },
   "config": {
