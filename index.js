@@ -27,6 +27,16 @@ const getThumbsPath = () => {
   return path.join(config.libraryPath, "thumbnails");
 };
 
+const getUniqueFilename = (dir, originalName, count = 0) => {
+  const ext = path.extname(originalName);
+  const name = path.basename(originalName, ext);
+  const filename = count ? `${name} (${count})${ext}` : originalName;
+  const filePath = path.join(dir, filename);
+  return fs.existsSync(filePath)
+    ? getUniqueFilename(dir, originalName, ++count)
+    : filename;
+};
+
 const openCommand =
   {
     darwin: "open",
@@ -54,7 +64,7 @@ const createWindow = () => {
   });
   ipcMain.handle("importMedia", async (event, file) => {
     const config = getConfig();
-    const filename = path.basename(file);
+    const filename = getUniqueFilename(getMediaPath(), path.basename(file));
 
     const mediaPath = path.join(getMediaPath(), filename);
     fs.copyFileSync(file, mediaPath);
