@@ -30,3 +30,8 @@ config.json:
 ```bash
 npm run dev
 ```
+
+
+## メモ
+
+アイコンには、[Material Design Icons](https://material.io/icons) を使用しています。
