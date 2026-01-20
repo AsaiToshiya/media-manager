@@ -35,3 +35,8 @@ npm run dev
 ## メモ
 
 アイコンには、[Material Design Icons](https://material.io/icons) を使用しています。
+
+
+## ライセンス
+
+MIT ライセンス。`LICENSE.txt` を参照。
