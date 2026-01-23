@@ -1,5 +1,6 @@
 export interface Config {
   libraryPath: string;
+  thumbnailSize?: number;
 }
 
 interface Media {

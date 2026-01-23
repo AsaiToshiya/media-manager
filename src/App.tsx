@@ -35,6 +35,8 @@ const stopEvent = (e: React.DragEvent<HTMLDivElement>) => {
   e.stopPropagation();
 };
 
+const thumbnailSize = (await window.getConfig()).thumbnailSize ?? 210;
+
 const contentStyle = css`
   box-sizing: border-box;
   height: 100%;
@@ -43,7 +45,7 @@ const contentStyle = css`
 const thumbnailListStyle = css`
   display: grid;
   gap: 4px;
-  grid-template-columns: repeat(auto-fill, 210px);
+  grid-template-columns: repeat(auto-fill, ${thumbnailSize}px);
   justify-content: space-between;
   padding-inline-start: 0;
 `;
@@ -53,9 +55,9 @@ const thumbnailListItemStyle = css`
   padding: 0;
 `;
 const imageStyle = css`
-  height: 210px;
+  height: ${thumbnailSize}px;
   object-fit: contain;
-  width: 210px;
+  width: ${thumbnailSize}px;
 `;
 const titleStyle = css`
   word-break: break-all;
