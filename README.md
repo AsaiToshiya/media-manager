@@ -25,6 +25,10 @@ config.json:
 }
 ```
 
+`config.json` にはオプションのフィールドを追加できます:
+
+- `thumbnailSize`: サムネイルのグリッドのサイズ。
+
 ### 実行
 
 ```bash
